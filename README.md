@@ -1,5 +1,7 @@
-# Power State (WPF)
+# Search Amazon (WPF)
 **Last Updated:** 06 November 2014
+
+![Screenshot](screenshots/wpf-searchamazon-001.png)
 
 This is the code repository for a WPF app called "Search Amazon".<br/>
 It's purpose is to search Amazon products with filters, using query parameters.
