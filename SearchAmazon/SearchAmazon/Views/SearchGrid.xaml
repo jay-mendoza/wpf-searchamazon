@@ -1,0 +1,353 @@
+﻿<!-- ······································································
+// <copyright file="SearchGrid.xaml" company="Jay Bautista Mendoza">       //
+//     Copyright (c) Jay Bautista Mendoza. All rights reserved.          //
+// </copyright>                                                          //
+······································································· -->
+    
+<UserControl x:Class="SearchAmazon.Views.SearchGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SearchAmazon.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source=".\Styles\MainPage.xaml"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="40" MinHeight="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition MaxHeight="24"/>
+            <RowDefinition MaxHeight="40" MinHeight="24"/>
+            <RowDefinition MaxHeight="40" MinHeight="24"/>
+            <RowDefinition MaxHeight="40" MinHeight="24"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource ResourceKey=LabelStyle}"
+                Text="Keyword: "
+                />
+            <TextBox
+                Name="Keywords"
+                Grid.Column="1"
+                KeyDown="SearchKeyDown"
+                Style="{StaticResource ResourceKey=TextBoxStyle}"
+                TextChanged="ParameterTextsChanged"
+                ToolTip="Search keywords."
+                ToolTipService.InitialShowDelay="300"
+                />
+            <Button
+                Name="ClearKeywords"
+                Grid.Column="2"
+                Click="ClearBoxClick"
+                Content="|◂-"
+                Style="{StaticResource ResourceKey=ButtonStyle}"
+                ToolTip="Clear this textbox."
+                ToolTipService.InitialShowDelay="300"
+                />
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Grid.Row="0"
+                Style="{StaticResource ResourceKey=LabelStyle}"
+                Text="Brand: "
+                />
+            <TextBox
+                Name="Brand"
+                Grid.Column="2"
+                Grid.Row="0"
+                KeyDown="SearchKeyDown"
+                Style="{StaticResource ResourceKey=TextBoxStyle}"
+                TextChanged="ParameterTextsChanged"
+                ToolTip="Brand of items. Separate brands with pipe '|'."
+                ToolTipService.InitialShowDelay="300"
+                />
+            <Button
+                Name="FavoriteBrand"
+                Grid.Column="1"
+                Grid.Row="0"
+                Click="FavoriteBrand_Click"
+                Content=" ★ "
+                Style="{StaticResource ResourceKey=ButtonStyle}"
+                ToolTip="Add this as favorite."
+                ToolTipService.InitialShowDelay="300"
+                />
+            <Button
+                Name="ClearBrand"
+                Grid.Column="3"
+                Grid.Row="0"
+                Click="ClearBoxClick"
+                Content="|◂-"
+                Style="{StaticResource ResourceKey=ButtonStyle}"
+                ToolTip="Clear this textbox."
+                ToolTipService.InitialShowDelay="300"
+                />
+            <WrapPanel
+                Name="BrandFavorites"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                />
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource ResourceKey=LabelStyle}"
+                Text="Price: "
+                />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock
+                    Style="{StaticResource ResourceKey=LabelStyle}"
+                    Text=" $"
+                    />
+                <TextBox
+                    Name="PriceLow"
+                    KeyDown="SearchKeyDown"
+                    PreviewTextInput="NumberPreviewTextInput"
+                    Style="{StaticResource ResourceKey=EditableTextBoxStyle}"
+                    TextChanged="ParameterTextsChanged"
+                    ToolTip="Search for items above this amount."
+                    ToolTipService.InitialShowDelay="300"
+                    Width="50"
+                    />
+                <TextBlock
+                    Style="{StaticResource ResourceKey=LabelStyle}"
+                    Text=" — "
+                    />
+                <TextBlock
+                    Style="{StaticResource ResourceKey=LabelStyle}"
+                    Text=" $"
+                    />
+                <TextBox
+                    Name="PriceHigh"
+                    KeyDown="SearchKeyDown"
+                    PreviewTextInput="NumberPreviewTextInput"
+                    Style="{StaticResource ResourceKey=EditableTextBoxStyle}"
+                    TextChanged="ParameterTextsChanged"
+                    ToolTip="Search for items below this amount."
+                    ToolTipService.InitialShowDelay="300"
+                    Width="50"
+                    />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource ResourceKey=LabelStyle}"
+                Text="Eligible: "
+                />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <RadioButton
+                    Name="AnyEligibility"                                      
+                    Checked="ParameterOptionsChanged"
+                    Content="Any"
+                    GroupName="EligibleOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    Unchecked="ParameterOptionsChanged"
+                    ToolTip="Search all items."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="Prime"                                      
+                    Checked="ParameterOptionsChanged"
+                    Content="Prime"
+                    GroupName="EligibleOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    Unchecked="ParameterOptionsChanged"
+                    ToolTip="Search for Prime eligible items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="PrimeFreeOneDay"                                      
+                    Checked="ParameterOptionsChanged"
+                    Content="Prime 1-Day"
+                    GroupName="EligibleOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    Unchecked="ParameterOptionsChanged"
+                    ToolTip="Search for Prime | FREE One-Day eligible items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="AmazonGlobal"
+                    Checked="ParameterOptionsChanged"
+                    Content="AGlobal"
+                    GroupName="EligibleOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    Unchecked="ParameterOptionsChanged"
+                    ToolTip="Search for AmazonGlobal eligible items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="AmazonGlobalFree"
+                    Checked="ParameterOptionsChanged"
+                    Content="Global Free"
+                    GroupName="EligibleOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    Unchecked="ParameterOptionsChanged"
+                    ToolTip="Search for Free AmazonGlobal eligible items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource ResourceKey=LabelStyle}"
+                Text="Condition: "
+                />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <RadioButton
+                    Name="AnyCondition"
+                    Checked="ParameterOptionsChanged"                                
+                    Content="Any"
+                    GroupName="ConditionOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    ToolTip="Search for all items."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="NewCondition"
+                    Checked="ParameterOptionsChanged"                                
+                    Content="New"
+                    GroupName="ConditionOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    ToolTip="Search for new items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="UsedCondition"
+                    Checked="ParameterOptionsChanged"                                
+                    Content="Used"
+                    GroupName="ConditionOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    ToolTip="Search for used items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <RadioButton
+                    Name="RefurbishedCondition"
+                    Checked="ParameterOptionsChanged"                                
+                    Content="Refurbished"
+                    GroupName="ConditionOptions"
+                    Margin="0 0 5 0"
+                    Style="{StaticResource ResourceKey=RadioButtonStyle}"
+                    ToolTip="Search for refurbished items only."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+            </StackPanel>
+        </Grid>
+                
+        <Grid Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+                <CheckBox
+                    Name="CopyToClipboard"
+                    Content="📋  COPY  "
+                    Style="{StaticResource ResourceKey=CheckBoxStyle}"
+                    ToolTip="Copy to clipboard on click."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+                <CheckBox
+                    Name="LaunchOnBrowser"
+                    Content="📂 OPEN  "
+                    Style="{StaticResource ResourceKey=CheckBoxStyle}"
+                    ToolTip="Open in browser on click."
+                    ToolTipService.InitialShowDelay="300"
+                    />
+            </StackPanel>
+            <Button
+                Name="UrlBox"
+                Grid.Column="1"
+                Click="UrlBox_Click"
+                Cursor="Hand"
+                Padding="10 10 10 10"
+                Style="{StaticResource ResourceKey=ButtonStyle}"
+                ToolTip="Click to copy to clipboard or open in browser."
+                ToolTipService.InitialShowDelay="300"
+                />
+        </Grid>
+
+        <TextBox
+            Grid.Row="9"
+            HorizontalContentAlignment="Center"
+            Style="{StaticResource ResourceKey=ReadOnlyTextBoxStyle}"
+            Text="Amazon Helper"
+            VerticalContentAlignment="Center"
+            />
+    </Grid>
+</UserControl>
